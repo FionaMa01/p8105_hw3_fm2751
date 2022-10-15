@@ -29,3 +29,6 @@ options(
 scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
+
+##  Problem 0
+Public GitHub repo, local R Project, subdirectory for data, and .Rmd file created and rendered to github_document.
