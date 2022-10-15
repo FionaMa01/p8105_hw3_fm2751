@@ -32,3 +32,15 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ##  Problem 0
 Public GitHub repo, local R Project, subdirectory for data, and .Rmd file created and rendered to github_document.
+
+## Problem 1
+
+### Read in the data
+
+```{r}
+data("instacart")
+
+instacart = 
+  instacart %>% 
+  as_tibble(instacart)
+```
