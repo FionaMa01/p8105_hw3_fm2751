@@ -107,10 +107,10 @@ accel =
   pivot_longer(
     activity_1:activity_1440,
     names_prefix = "activity_",
-    names_to = "activity_time_in_mins",
+    names_to = "time_in_mins",
     values_to = "activity_counts") %>% 
   mutate(
-    activity_time_in_mins = as.numeric(activity_time_in_mins),
+    time_in_mins = as.numeric(time_in_mins),
     week = as.factor(week),
     day = factor(day, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")),
     weekday_vs_weekend  = ifelse(day %in% c("Sunday", "Saturday"), print("weekend"), print("weekday"))) %>%
@@ -119,6 +119,31 @@ accel =
 
 #### Description of the resulting dataset
 The resulting dataset `accel` contains `r nrow(accel)` observations and `r ncol(accel)` variables, they are: `r names(accel)`. It's worth pointing out that activity time is recorded in minutes, and we added a new variable `weekday_vs_weekend` to the original dataset to indicate whether the day is a weekday or a weekend, which can be very helpful in the following analyses.
+
+### Generate a table of total activity/day
+```{r}
+tot_act <-
+  accel %>% 
+  group_by(day_id) %>% 
+  summarise(total_activity = sum(activity_counts))
+tot_act %>% knitr::kable()
+```
+
+### Generate a plot of total activity/day to see if any trend present
+```{r}
+tot_act %>% 
+  ggplot(aes(x = day_id, y = total_activity)) +
+  geom_point() +
+  geom_line() +
+  labs (
+    title = "Total activity over each day",
+    x = "Day_id",
+    y = "Total activity"
+  ) +
+  theme_classic()
+```
+* According to the above table and plot generated from the `accel` dataset, when we focus on the total activity for each day (i.e., `total_activity` vs. `day_id`), there is no any apparent trends observed. We might need to focus on different groupings to observe an apparent trend.
+
 
 
 
