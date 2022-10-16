@@ -311,6 +311,6 @@ tmax_vs_tmin + snowfall
 ```
 
 #### Comments on the output
-Based on the hexagonal two-dimensional heatmap (left panel), the darker the color, the higher the count. We could straightforwardly see that the most common observed maximum temperature is ~25C and the most common observed maximum temperature is ~15C, in NY state between 1981 and 2010. This results do not seem reasonable to me because remember we have 44% missing data in both `tmin` and `tmax`.
+Based on the hexagonal two-dimensional heatmap (left panel), the darker the color, the higher the count. We could straightforwardly see that the most commonly observed maximum temperature is ~25C and the most commonly observed minimum temperature is ~15C, in NY state between 1981 and 2010. This resultdoes not seem reasonable to me and that might due to we have 44% missing data in both `tmin` and `tmax`.
 Based on the violin plots for each year (right panel), we could see that the statistic for snowfall did not change much, shapes of the plots are very similar to each other, indicating the trend of snowfall did not changed much between 1981 and 2010, in NY state. 
 
