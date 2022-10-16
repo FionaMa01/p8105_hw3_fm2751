@@ -31,6 +31,7 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ##  Problem 0
+
 Public GitHub repo, local R Project, subdirectory for data, and .Rmd file created and rendered to github_document.
 
 ## Problem 1
@@ -100,6 +101,7 @@ instacart %>%
 ## Problem 2
 
 ### Load and tidy the data
+
 ```{r}
 accel = 
   read_csv("./data/accel_data.csv", col_types = cols()) %>% 
@@ -118,9 +120,11 @@ accel =
 ```
 
 #### Description of the resulting dataset
+
 The resulting dataset `accel` contains `r nrow(accel)` observations and `r ncol(accel)` variables, they are: `r names(accel)`. It's worth pointing out that activity time is recorded in minutes, and we added a new variable `weekday_vs_weekend` to the original dataset to indicate whether the day is a weekday or a weekend, which can be very helpful in the following analyses.
 
 ### Generate a table of total activity/day
+
 ```{r}
 tot_act <-
   accel %>% 
@@ -130,10 +134,11 @@ tot_act %>% knitr::kable()
 ```
 
 ### Generate a plot of total activity/day to see if any trend present
+
 ```{r}
 tot_act %>% 
   ggplot(aes(x = day_id, y = total_activity)) +
-  geom_point() +
+  geom_point(size = 1, alpha = .05) +
   geom_line() +
   labs (
     title = "Total activity over each day",
@@ -142,8 +147,30 @@ tot_act %>%
   ) +
   theme_classic()
 ```
-* According to the above table and plot generated from the `accel` dataset, when we focus on the total activity for each day (i.e., `total_activity` vs. `day_id`), there is no any apparent trends observed. We might need to focus on different groupings to observe an apparent trend.
 
+#### Description of the output
 
+According to the above table and plot generated from the `accel` dataset, when we focus on the total activity for each day (i.e., `total_activity` vs. `day_id`), there is no any apparent trends observed. We might need to focus on different groupings to observe an apparent trend.
+
+### Generate a plot of 24-hour activity time courses for each day, colored by day of the week
+
+```{r}
+accel %>% 
+  mutate(time_in_hs = time_in_mins/60) %>% 
+  ggplot(aes(x = time_in_hs, y = activity_counts, fill = day, color = day)) +
+  geom_point(alpha = .05) +
+  geom_smooth(aes(group = day, color = day)) +
+  scale_x_continuous(breaks = seq(0, 24, by = 1)) +
+  labs(
+    title = "24-hour activity time courses for each day",
+    x = "time in a day (hour)",
+    y = "activity counts"
+  ) +
+  theme_minimal()
+```
+
+#### Description of the output
+
+Based on this graph, when we focus on activity counts over time (in hours) for each day, we could observe 4 peaks of activity counts within a day at time windows: 6:00-8:00, 10:00-12:00, 16:00-18:00, 19:00-21:30. Activity count is very low between 1:00 and 5:00, and then gradually increases and fluctuates within the day until 23:00, and gradually reduced to a relatively low level. By coloring according to the day of the week, we could see that the trends for each day of the week (from Monday to Sunday) are actually pretty similar to each other, except for that we can observe 2 apparent peaks of activity counts on Sunday at 9:00-13:00 and on Friday at 19:00-23:00.
 
 
